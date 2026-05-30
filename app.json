@@ -15,7 +15,9 @@
     "ios": {
       "supportsTablet": true
     },
+    "platforms": ["ios", "android", "web"],
     "android": {
+      "package": "com.felipebzd.conectapro",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
