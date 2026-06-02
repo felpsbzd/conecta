@@ -3,10 +3,15 @@ import { Job } from "../types/job.types";
 import { MatchResult } from "../types/match.types";
 
 export type RootStackParamList = {
-    Home: undefined;
-    ProfessionalRegistration: undefined;
-    CompanyRegistration: undefined;
-    MatchResults: { professional: Professional; jobs: Job[]; 
-    JobDetail: {matchResult: MatchResult};
-    };
+  Welcome: undefined;
+  Home: undefined;
+  ProfessionalRegistration: undefined;
+  CompanyRegistration: undefined;
+  MatchResults: {
+    professional: Professional;
+    jobs: Job[];
+  };
+  JobDetail: {
+    matchResult: MatchResult;
+  };
 };

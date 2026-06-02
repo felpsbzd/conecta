@@ -59,7 +59,7 @@ export function useCompanyForm() {
   await saveCompany(company);
   await saveJob(job);
   dispatch({ type: 'SET_COMPANY', payload: company });
-  navigation.navigate('Home');
+  navigation.navigate('Welcome');
 }
 return {
     companyName, setCompanyName,

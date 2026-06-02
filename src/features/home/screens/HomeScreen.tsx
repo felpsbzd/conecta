@@ -1,18 +1,49 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import { useHome } from '../hooks/useHome';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useAppContext } from '../../../context/AppContext';
+import { RootStackParamList } from '../../../navigation/navigation.types';
+import { UserType } from '../../../types/user.types';
+
+type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Welcome'>;
+
 export default function HomeScreen() {
-  const { handleProfessionalPress, handleCompanyPress } = useHome();
+  const { state } = useAppContext();
+  const navigation = useNavigation<HomeNavigationProp>();
+
+  const isProfessional = state.userType === UserType.PROFESSIONAL;
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>ConectaPro</Text>
-      <Text style={styles.subtitle}>Conecte profissionais com oportunidades</Text>
-      <TouchableOpacity style={styles.button} onPress={handleProfessionalPress}>
-        <Text style={styles.buttonText}>Sou um Profissional</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={[styles.button, styles.companyButton]} onPress={handleCompanyPress}>
-        <Text style={styles.buttonText}>Sou uma Empresa</Text>
+      <Text style={styles.greeting}>
+        Olá, {isProfessional ? state.professional?.name : state.company?.name}! 👋
+      </Text>
+      <Text style={styles.subtitle}>
+        {isProfessional ? 'Encontre vagas compatíveis com seu perfil' : 'Gerencie suas vagas abertas'}
+      </Text>
+
+      {isProfessional ? (
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('MatchResults', {
+            professional: state.professional!,
+            jobs: [],
+          })}
+        >
+          <Text style={styles.buttonText}>Buscar Vagas 🔍</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={[styles.button, styles.companyButton]}
+          onPress={() => navigation.navigate('CompanyRegistration')}
+        >
+          <Text style={styles.buttonText}>Publicar Nova Vaga ➕</Text>
+        </TouchableOpacity>
+      )}
+
+      <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.replace('Welcome')}>
+        <Text style={styles.logoutText}>Trocar de conta</Text>
       </TouchableOpacity>
     </View>
   );
@@ -21,12 +52,11 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     padding: 24,
+    paddingTop: 80,
   },
-  title: {
-    fontSize: 32,
+  greeting: {
+    fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 8,
   },
@@ -34,13 +64,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#666',
     marginBottom: 48,
-    textAlign: 'center',
   },
   button: {
-    width: '100%',
     backgroundColor: '#2563EB',
-    padding: 16,
-    borderRadius: 8,
+    padding: 18,
+    borderRadius: 12,
     alignItems: 'center',
     marginBottom: 16,
   },
@@ -49,7 +77,22 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
+  },
+  logoutButton: {
+    position: 'absolute',
+    bottom: 48,
+    left: 24,
+    right: 24,
+    padding: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    alignItems: 'center',
+  },
+  logoutText: {
+    color: '#666',
+    fontSize: 16,
   },
 });

@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, Text, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import { useMatchResults } from '../hooks/useMatchResults';
 import { MatchResult } from '../../../types/match.types';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../navigation/navigation.types';
 
 export default function MatchResultsScreen() {
   const { results, loading, professional } = useMatchResults();
-
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'MatchResults'>>();
   if (loading) {
     return (
       <View style={styles.centered}>
@@ -29,7 +32,10 @@ export default function MatchResultsScreen() {
           data={results}
           keyExtractor={(_, index) => index.toString()}
           renderItem={({ item }: { item: MatchResult }) => (
-            <View style={styles.card}>
+            <TouchableOpacity
+              style={styles.card}
+              onPress={() => navigation.navigate('JobDetail', { matchResult: item })}
+            >
               <View style={styles.cardHeader}>
                 <Text style={styles.jobTitle}>{item.job.title}</Text>
                 <View style={[styles.scoreBadge, { backgroundColor: item.score === 100 ? '#16A34A' : '#2563EB' }]}>
@@ -37,7 +43,7 @@ export default function MatchResultsScreen() {
                 </View>
               </View>
               <Text style={styles.companyName}>{item.company.name}</Text>
-              <Text style={styles.matchedLabel}>Habilidades correspondentes:</Text>
+              <Text style={styles.matchedLabel}>Habilidades compatíveis:</Text>
               <View style={styles.skillsRow}>
                 {item.matchedSkills.map((skill, i) => (
                   <View key={i} style={styles.skillBadge}>
@@ -45,13 +51,14 @@ export default function MatchResultsScreen() {
                   </View>
                 ))}
               </View>
-            </View>
+            </TouchableOpacity>
           )}
         />
       )}
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

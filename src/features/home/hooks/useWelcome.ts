@@ -4,11 +4,11 @@ import { useAppContext } from "../../../context/AppContext";
 import { RootStackParamList } from "../../../navigation/navigation.types";
 import { UserType } from "../../../types/user.types";
 
-type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
+type WelcomeNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Welcome'>;
 
-export function useHome() {
+export function useWelcome() {
     const { dispatch } = useAppContext();
-    const navigation = useNavigation<HomeNavigationProp>();
+    const navigation = useNavigation<WelcomeNavigationProp>();
 
     function handleProfessionalPress(){
         dispatch({type: 'SET_USER_TYPE', payload: UserType.PROFESSIONAL});
