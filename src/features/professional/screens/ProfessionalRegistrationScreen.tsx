@@ -11,22 +11,23 @@ export default function ProfessionalRegistrationScreen() {
     handleAddSkill,
     handleRemoveSkill,
     handleSubmit,
+    error,
   } = useProfessionalForm();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Professional Registration</Text>
+      <Text style={styles.title}>Cadastro de Profissional</Text>
 
       <TextInput
         style={styles.input}
-        placeholder="Your name"
+        placeholder="Seu nome"
         value={name}
         onChangeText={setName}
       />
 
       <TextInput
         style={styles.input}
-        placeholder="Your profession"
+        placeholder="Sua profissão"
         value={profession}
         onChangeText={setProfession}
       />
@@ -34,7 +35,7 @@ export default function ProfessionalRegistrationScreen() {
       <View style={styles.skillRow}>
         <TextInput
           style={[styles.input, styles.skillInput]}
-          placeholder="Add a skill"
+          placeholder="Adicionar habilidade"
           value={currentSkill}
           onChangeText={setCurrentSkill}
         />
@@ -55,14 +56,10 @@ export default function ProfessionalRegistrationScreen() {
           </View>
         )}
       />
-
+        {error !== '' && <Text style={styles.errorText}>{error}</Text>}
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitText}>Find Matches</Text>
+        <Text style={styles.submitText}>Encontrar Vagas</Text>
       </TouchableOpacity>
-
-      <View style={styles.container}>
-      <Text style={styles.title}>Professional Registration</Text>
-    </View>
     </View>
   );
 }
@@ -124,6 +121,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  errorText: {
+  color: '#EF4444',
+  fontSize: 14,
+  marginBottom: 8,
+  textAlign: 'center',
+},
   submitButton: {
     backgroundColor: '#2563EB',
     padding: 16,

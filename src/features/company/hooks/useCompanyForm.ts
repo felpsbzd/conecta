@@ -13,10 +13,11 @@ export function useCompanyForm() {
   const { dispatch } = useAppContext();
   const navigation = useNavigation<CompanyFormNavigationProp>();
 
-  const [companyName, setCompanyName] = useState('');
-  const [jobTitle, setJobTitle] = useState('');
-  const [requirements, setRequirements] = useState<string[]>([]);
+  const [companyName, setCompanyName] = useState('Tech Corp');
+  const [jobTitle, setJobTitle] = useState('Desenvolvedor Full Stack');
+  const [requirements, setRequirements] = useState<string[]>(['Java', 'TypeScript']);
   const [currentRequirement, setCurrentRequirement] = useState('');
+  const [error, setError] = useState('');
 
   function handleAddRequirement() {
     if (currentRequirement.trim() === '') return;
@@ -28,28 +29,39 @@ export function useCompanyForm() {
     setRequirements(prev => prev.filter((_, i) => i !== index));
   }
 
-  async function handleSubmit() {
-    if (companyName.trim() === '' || jobTitle.trim() === '' || requirements.length === 0) return;
-
-    const company: Company = {
-      id: Date.now().toString(),
-      name: companyName,
-    };
-
-    const job: Job = {
-      id: (Date.now() + 1).toString(),
-      companyId: company.id,
-      title: jobTitle,
-      requirements,
-    };
-
-    await saveCompany(company);
-    await saveJob(job);
-    dispatch({ type: 'SET_COMPANY', payload: company });
-    navigation.navigate('Home');
+ async function handleSubmit() {
+  if (companyName.trim() === '') {
+    setError('Please enter the company name.');
+    return;
+  }
+  if (jobTitle.trim() === '') {
+    setError('Please enter the job title.');
+    return;
+  }
+  if (requirements.length === 0) {
+    setError('Please add at least one requirement.');
+    return;
   }
 
-  return {
+  setError('');
+  const company: Company = {
+    id: Date.now().toString(),
+    name: companyName,
+  };
+
+  const job: Job = {
+    id: (Date.now() + 1).toString(),
+    companyId: company.id,
+    title: jobTitle,
+    requirements,
+  };
+
+  await saveCompany(company);
+  await saveJob(job);
+  dispatch({ type: 'SET_COMPANY', payload: company });
+  navigation.navigate('Home');
+}
+return {
     companyName, setCompanyName,
     jobTitle, setJobTitle,
     requirements,
@@ -57,5 +69,6 @@ export function useCompanyForm() {
     handleAddRequirement,
     handleRemoveRequirement,
     handleSubmit,
+    error,
   };
 }

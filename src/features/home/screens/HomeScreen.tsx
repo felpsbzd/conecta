@@ -7,12 +7,12 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>ConectaPro</Text>
-      <Text style={styles.subtitle}>Connect professionals with opportunities</Text>
+      <Text style={styles.subtitle}>Conecte profissionais com oportunidades</Text>
       <TouchableOpacity style={styles.button} onPress={handleProfessionalPress}>
-        <Text style={styles.buttonText}>I'm a Professional</Text>
+        <Text style={styles.buttonText}>Sou um Profissional</Text>
       </TouchableOpacity>
       <TouchableOpacity style={[styles.button, styles.companyButton]} onPress={handleCompanyPress}>
-        <Text style={styles.buttonText}>I'm a Company</Text>
+        <Text style={styles.buttonText}>Sou uma Empresa</Text>
       </TouchableOpacity>
     </View>
   );

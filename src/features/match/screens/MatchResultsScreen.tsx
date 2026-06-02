@@ -16,13 +16,13 @@ export default function MatchResultsScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Matches for {professional.name}</Text>
-      <Text style={styles.subtitle}>{results.length} job{results.length !== 1 ? 's' : ''} found</Text>
+      <Text style={styles.title}>Vagas para {professional.name}</Text>
+      <Text style={styles.subtitle}>{results.length} vaga{results.length !== 1 ? 's' : ''} encontrada{results.length !== 1 ? 's' : ''}</Text>
 
       {results.length === 0 ? (
         <View style={styles.centered}>
-          <Text style={styles.emptyText}>No matches found yet.</Text>
-          <Text style={styles.emptySubtext}>Try adding more skills!</Text>
+          <Text style={styles.emptyText}>Nenhuma vaga encontrada ainda.</Text>
+          <Text style={styles.emptySubtext}>Tente adicionar mais habilidades!</Text>
         </View>
       ) : (
         <FlatList
@@ -37,7 +37,7 @@ export default function MatchResultsScreen() {
                 </View>
               </View>
               <Text style={styles.companyName}>{item.company.name}</Text>
-              <Text style={styles.matchedLabel}>Matched skills:</Text>
+              <Text style={styles.matchedLabel}>Habilidades correspondentes:</Text>
               <View style={styles.skillsRow}>
                 {item.matchedSkills.map((skill, i) => (
                   <View key={i} style={styles.skillBadge}>

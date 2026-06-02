@@ -11,11 +11,11 @@ type ProfessionalFormNavigationProp = NativeStackNavigationProp<RootStackParamLi
 export function useProfessionalForm() {
   const { dispatch } = useAppContext();
   const navigation = useNavigation<ProfessionalFormNavigationProp>();
-
-  const [name, setName] = useState('');
-  const [profession, setProfession] = useState('');
-  const [skills, setSkills] = useState<string[]>([]);
+  const [name, setName] = useState('Felipe Silva');
+  const [profession, setProfession] = useState('Desenvolvedor');
+  const [skills, setSkills] = useState<string[]>(['Java', 'TypeScript', 'React']);
   const [currentSkill, setCurrentSkill] = useState('');
+  const [error, setError] = useState('');
 
   function handleAddSkill() {
     if (currentSkill.trim() === '') return;
@@ -27,28 +27,44 @@ export function useProfessionalForm() {
     setSkills(prev => prev.filter((_, i) => i !== index));
   }
 
-  async function handleSubmit() {
-    if (name.trim() === '' || profession.trim() === '' || skills.length === 0) return;
 
-    const professional: Professional = {
-      id: Date.now().toString(),
-      name,
-      profession,
-      skills,
-    };
 
-    await saveProfessional(professional);
-    dispatch({ type: 'SET_PROFESSIONAL', payload: professional });
-    navigation.navigate('MatchResults', { professional, jobs: [] });
+async function handleSubmit() {
+  if (name.trim() === '') {
+    setError('Please enter your name.');
+    return;
   }
+  if (profession.trim() === '') {
+    setError('Please enter your profession.');
+    return;
+  }
+  if (skills.length === 0) {
+    setError('Please add at least one skill.');
+    return;
+  }
+
+  setError('');
+  const professional: Professional = {
+    id: Date.now().toString(),
+    name,
+    profession,
+    skills,
+  };
+
+  await saveProfessional(professional);
+  dispatch({ type: 'SET_PROFESSIONAL', payload: professional });
+  navigation.navigate('MatchResults', { professional, jobs: [] });
+}
+
 
   return {
     name, setName,
-    profession, setProfession,
-    skills,
-    currentSkill, setCurrentSkill,
-    handleAddSkill,
-    handleRemoveSkill,
-    handleSubmit,
+  profession, setProfession,
+  skills,
+  currentSkill, setCurrentSkill,
+  handleAddSkill,
+  handleRemoveSkill,
+  handleSubmit,
+  error,
   };
 }

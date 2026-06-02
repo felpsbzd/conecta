@@ -11,22 +11,23 @@ export default function CompanyRegistrationScreen() {
     handleAddRequirement,
     handleRemoveRequirement,
     handleSubmit,
-  } = useCompanyForm();
+    error,
+  } = (useCompanyForm());
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Company Registration</Text>
+      <Text style={styles.title}>Cadastro de Empresa</Text>
 
       <TextInput
         style={styles.input}
-        placeholder="Company name"
+        placeholder="Nome da empresa"
         value={companyName}
         onChangeText={setCompanyName}
       />
 
       <TextInput
         style={styles.input}
-        placeholder="Job title"
+        placeholder="Título da vaga"
         value={jobTitle}
         onChangeText={setJobTitle}
       />
@@ -34,7 +35,7 @@ export default function CompanyRegistrationScreen() {
       <View style={styles.skillRow}>
         <TextInput
           style={[styles.input, styles.skillInput]}
-          placeholder="Add a requirement"
+          placeholder="Adicionar requisito"
           value={currentRequirement}
           onChangeText={setCurrentRequirement}
         />
@@ -55,9 +56,9 @@ export default function CompanyRegistrationScreen() {
           </View>
         )}
       />
-
+      {error !== '' && <Text style={styles.errorText}>{error}</Text>}
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitText}>Post Job</Text>
+        <Text style={styles.submitText}>Publicar vaga</Text>
       </TouchableOpacity>
     </View>
   );
@@ -119,6 +120,12 @@ const styles = StyleSheet.create({
     color: '#EF4444',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  errorText: {
+    color: '#EF4444',
+    fontSize: 14,
+    marginBottom: 8,
+    textAlign: 'center',
   },
   submitButton: {
     backgroundColor: '#16A34A',
