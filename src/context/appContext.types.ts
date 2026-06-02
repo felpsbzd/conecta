@@ -12,3 +12,4 @@ export type AppAction =
   | { type: "SET_USER_TYPE"; payload: UserType }
   | { type: "SET_PROFESSIONAL"; payload: Professional }
   | { type: "SET_COMPANY"; payload: Company }
+  | { type: "RESET" }

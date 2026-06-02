@@ -17,6 +17,7 @@ export default function ProfessionalRegistrationScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Cadastro de Profissional</Text>
+      <Text style={styles.subtitle}>Preencha seus dados e habilidades principais.</Text>
 
       <TextInput
         style={styles.input}
@@ -67,17 +68,24 @@ export default function ProfessionalRegistrationScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F8FAFC',
     padding: 24,
-    paddingTop: 48,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 24,
+    color: '#0F172A',
+    fontSize: 26,
+    fontWeight: '800',
+    marginBottom: 6,
+  },
+  subtitle: {
+    color: '#64748B',
+    fontSize: 15,
+    marginBottom: 22,
   },
   input: {
+    backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#CBD5E1',
     borderRadius: 8,
     padding: 12,
     marginBottom: 16,
@@ -122,11 +130,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   errorText: {
-  color: '#EF4444',
-  fontSize: 14,
-  marginBottom: 8,
-  textAlign: 'center',
-},
+    color: '#EF4444',
+    fontSize: 14,
+    marginBottom: 8,
+    textAlign: 'center',
+  },
   submitButton: {
     backgroundColor: '#2563EB',
     padding: 16,

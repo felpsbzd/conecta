@@ -17,6 +17,7 @@ export default function CompanyRegistrationScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Cadastro de Empresa</Text>
+      <Text style={styles.subtitle}>Publique uma vaga com requisitos claros.</Text>
 
       <TextInput
         style={styles.input}
@@ -67,17 +68,24 @@ export default function CompanyRegistrationScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F8FAFC',
     padding: 24,
-    paddingTop: 48,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 24,
+    color: '#0F172A',
+    fontSize: 26,
+    fontWeight: '800',
+    marginBottom: 6,
+  },
+  subtitle: {
+    color: '#64748B',
+    fontSize: 15,
+    marginBottom: 22,
   },
   input: {
+    backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#CBD5E1',
     borderRadius: 8,
     padding: 12,
     marginBottom: 16,

@@ -8,13 +8,16 @@ export default function WelcomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>ConectaPro</Text>
-      <Text style={styles.subtitle}>Conecte profissionais com oportunidades</Text>
+      <View style={styles.brandCard}>
+        <Text style={styles.label}>Match profissional</Text>
+        <Text style={styles.title}>ConectaPro</Text>
+        <Text style={styles.subtitle}>Conecte talentos, empresas e oportunidades em poucos passos.</Text>
+      </View>
       <TouchableOpacity style={styles.button} onPress={handleProfessionalPress}>
-        <Text style={styles.buttonText}>Sou um Profissional</Text>
+        <Text style={styles.buttonText}>Sou profissional</Text>
       </TouchableOpacity>
       <TouchableOpacity style={[styles.button, styles.companyButton]} onPress={handleCompanyPress}>
-        <Text style={styles.buttonText}>Sou uma Empresa</Text>
+        <Text style={styles.buttonText}>Sou empresa</Text>
       </TouchableOpacity>
     </View>
   );
@@ -24,19 +27,32 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#F8FAFC',
     padding: 24,
   },
+  brandCard: {
+    backgroundColor: '#0F172A',
+    borderRadius: 8,
+    marginBottom: 28,
+    padding: 24,
+  },
+  label: {
+    color: '#93C5FD',
+    fontSize: 13,
+    fontWeight: '800',
+    marginBottom: 12,
+    textTransform: 'uppercase',
+  },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
+    color: '#FFFFFF',
+    fontSize: 36,
+    fontWeight: '800',
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
-    marginBottom: 48,
-    textAlign: 'center',
+    color: '#CBD5E1',
+    lineHeight: 23,
   },
   button: {
     width: '100%',
@@ -44,7 +60,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 12,
   },
   companyButton: {
     backgroundColor: '#16A34A',

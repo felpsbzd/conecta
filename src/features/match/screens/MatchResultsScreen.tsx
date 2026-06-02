@@ -2,13 +2,9 @@ import React from 'react';
 import { View, Text, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import { useMatchResults } from '../hooks/useMatchResults';
 import { MatchResult } from '../../../types/match.types';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../navigation/navigation.types';
 
 export default function MatchResultsScreen() {
-  const { results, loading, professional } = useMatchResults();
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'MatchResults'>>();
+  const { results, loading, professional, handleOpenJob } = useMatchResults();
   if (loading) {
     return (
       <View style={styles.centered}>
@@ -34,11 +30,11 @@ export default function MatchResultsScreen() {
           renderItem={({ item }: { item: MatchResult }) => (
             <TouchableOpacity
               style={styles.card}
-              onPress={() => navigation.navigate('JobDetail', { matchResult: item })}
+              onPress={() => handleOpenJob(item)}
             >
               <View style={styles.cardHeader}>
                 <Text style={styles.jobTitle}>{item.job.title}</Text>
-                <View style={[styles.scoreBadge, { backgroundColor: item.score === 100 ? '#16A34A' : '#2563EB' }]}>
+                <View style={[styles.scoreBadge, item.score === 100 ? styles.perfectBadge : styles.defaultBadge]}>
                   <Text style={styles.scoreText}>{item.score}%</Text>
                 </View>
               </View>
@@ -59,12 +55,11 @@ export default function MatchResultsScreen() {
   );
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F8FAFC',
     padding: 24,
-    paddingTop: 48,
   },
   centered: {
     flex: 1,
@@ -119,6 +114,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 4,
     borderRadius: 20,
+  },
+  defaultBadge: {
+    backgroundColor: '#2563EB',
+  },
+  perfectBadge: {
+    backgroundColor: '#16A34A',
   },
   scoreText: {
     color: '#fff',

@@ -10,6 +10,12 @@ export function useJobDetail() {
   const route = useRoute<JobDetailRouteProp>();
   const navigation = useNavigation<JobDetailNavigationProp>();
   const { matchResult } = route.params;
+  const matchedSkillNames = matchResult.matchedSkills.map(skill => skill.toLowerCase());
+  const requirements = matchResult.job.requirements.map(requirement => ({
+    name: requirement,
+    matched: matchedSkillNames.includes(requirement.toLowerCase()),
+  }));
+  const isPerfectMatch = matchResult.score === 100;
 
   function handleApply() {
     Alert.alert(
@@ -22,5 +28,7 @@ export function useJobDetail() {
   return {
     matchResult,
     handleApply,
+    isPerfectMatch,
+    requirements,
   };
 }

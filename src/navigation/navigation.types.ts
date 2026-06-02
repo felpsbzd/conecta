@@ -5,6 +5,7 @@ import { MatchResult } from "../types/match.types";
 export type RootStackParamList = {
   Welcome: undefined;
   Home: undefined;
+  ProfessionalProfile: undefined;
   ProfessionalRegistration: undefined;
   CompanyRegistration: undefined;
   MatchResults: {

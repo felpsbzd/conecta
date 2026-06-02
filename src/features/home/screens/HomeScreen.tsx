@@ -1,48 +1,47 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useAppContext } from '../../../context/AppContext';
-import { RootStackParamList } from '../../../navigation/navigation.types';
-import { UserType } from '../../../types/user.types';
-
-type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Welcome'>;
+import { useHome } from '../hooks/useHome';
 
 export default function HomeScreen() {
-  const { state } = useAppContext();
-  const navigation = useNavigation<HomeNavigationProp>();
-
-  const isProfessional = state.userType === UserType.PROFESSIONAL;
+  const {
+    displayName,
+    handleCreateJob,
+    handleFindJobs,
+    handleOpenProfile,
+    handleSwitchAccount,
+    isProfessional,
+  } = useHome();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.greeting}>
-        Olá, {isProfessional ? state.professional?.name : state.company?.name}! 👋
-      </Text>
-      <Text style={styles.subtitle}>
-        {isProfessional ? 'Encontre vagas compatíveis com seu perfil' : 'Gerencie suas vagas abertas'}
-      </Text>
+      <View style={styles.hero}>
+        <Text style={styles.kicker}>ConectaPro</Text>
+        <Text style={styles.greeting}>Olá, {displayName}.</Text>
+        <Text style={styles.subtitle}>
+          {isProfessional
+            ? 'Veja seu perfil e encontre vagas com maior compatibilidade.'
+            : 'Publique oportunidades e conecte sua empresa a bons candidatos.'}
+        </Text>
+      </View>
 
-      {isProfessional ? (
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('MatchResults', {
-            professional: state.professional!,
-            jobs: [],
-          })}
-        >
-          <Text style={styles.buttonText}>Buscar Vagas 🔍</Text>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity
-          style={[styles.button, styles.companyButton]}
-          onPress={() => navigation.navigate('CompanyRegistration')}
-        >
-          <Text style={styles.buttonText}>Publicar Nova Vaga ➕</Text>
-        </TouchableOpacity>
-      )}
+      <View style={styles.actions}>
+        {isProfessional ? (
+          <>
+            <TouchableOpacity style={styles.primaryButton} onPress={handleFindJobs}>
+              <Text style={styles.primaryButtonText}>Buscar vagas</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.secondaryButton} onPress={handleOpenProfile}>
+              <Text style={styles.secondaryButtonText}>Meu perfil</Text>
+            </TouchableOpacity>
+          </>
+        ) : (
+          <TouchableOpacity style={styles.primaryButton} onPress={handleCreateJob}>
+            <Text style={styles.primaryButtonText}>Publicar nova vaga</Text>
+          </TouchableOpacity>
+        )}
+      </View>
 
-      <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.replace('Welcome')}>
+      <TouchableOpacity style={styles.logoutButton} onPress={handleSwitchAccount}>
         <Text style={styles.logoutText}>Trocar de conta</Text>
       </TouchableOpacity>
     </View>
@@ -52,33 +51,60 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F8FAFC',
     padding: 24,
-    paddingTop: 80,
+  },
+  hero: {
+    backgroundColor: '#0F172A',
+    borderRadius: 8,
+    padding: 22,
+    marginTop: 18,
+    marginBottom: 24,
+  },
+  kicker: {
+    color: '#93C5FD',
+    fontSize: 13,
+    fontWeight: '800',
+    marginBottom: 14,
+    textTransform: 'uppercase',
   },
   greeting: {
-    fontSize: 28,
-    fontWeight: 'bold',
+    color: '#FFFFFF',
+    fontSize: 30,
+    fontWeight: '800',
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
-    marginBottom: 48,
+    color: '#CBD5E1',
+    lineHeight: 23,
   },
-  button: {
+  actions: {
+    gap: 12,
+  },
+  primaryButton: {
     backgroundColor: '#2563EB',
-    padding: 18,
-    borderRadius: 12,
+    padding: 16,
+    borderRadius: 8,
     alignItems: 'center',
-    marginBottom: 16,
   },
-  companyButton: {
-    backgroundColor: '#16A34A',
+  primaryButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '800',
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+  secondaryButton: {
+    backgroundColor: '#FFFFFF',
+    borderColor: '#BFDBFE',
+    borderRadius: 8,
+    borderWidth: 1,
+    padding: 16,
+    alignItems: 'center',
+  },
+  secondaryButtonText: {
+    color: '#1D4ED8',
+    fontSize: 16,
+    fontWeight: '800',
   },
   logoutButton: {
     position: 'absolute',
@@ -86,13 +112,15 @@ const styles = StyleSheet.create({
     left: 24,
     right: 24,
     padding: 16,
-    borderRadius: 12,
+    borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#CBD5E1',
     alignItems: 'center',
+    backgroundColor: '#FFFFFF',
   },
   logoutText: {
-    color: '#666',
+    color: '#475569',
     fontSize: 16,
+    fontWeight: '700',
   },
 });

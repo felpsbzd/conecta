@@ -11,9 +11,9 @@ type ProfessionalFormNavigationProp = NativeStackNavigationProp<RootStackParamLi
 export function useProfessionalForm() {
   const { dispatch } = useAppContext();
   const navigation = useNavigation<ProfessionalFormNavigationProp>();
-  const [name, setName] = useState('Felipe Silva');
-  const [profession, setProfession] = useState('Desenvolvedor');
-  const [skills, setSkills] = useState<string[]>(['Java', 'TypeScript', 'React']);
+  const [name, setName] = useState('');
+  const [profession, setProfession] = useState('');
+  const [skills, setSkills] = useState<string[]>([]);
   const [currentSkill, setCurrentSkill] = useState('');
   const [error, setError] = useState('');
 
@@ -31,15 +31,15 @@ export function useProfessionalForm() {
 
 async function handleSubmit() {
   if (name.trim() === '') {
-    setError('Please enter your name.');
+    setError('Informe seu nome.');
     return;
   }
   if (profession.trim() === '') {
-    setError('Please enter your profession.');
+    setError('Informe sua profissão.');
     return;
   }
   if (skills.length === 0) {
-    setError('Please add at least one skill.');
+    setError('Adicione pelo menos uma habilidade.');
     return;
   }
 
@@ -53,7 +53,7 @@ async function handleSubmit() {
 
   await saveProfessional(professional);
   dispatch({ type: 'SET_PROFESSIONAL', payload: professional });
-  navigation.navigate('MatchResults', { professional, jobs: [] });
+  navigation.navigate('Home');
 }
 
 

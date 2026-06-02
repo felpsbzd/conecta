@@ -13,9 +13,9 @@ export function useCompanyForm() {
   const { dispatch } = useAppContext();
   const navigation = useNavigation<CompanyFormNavigationProp>();
 
-  const [companyName, setCompanyName] = useState('Tech Corp');
-  const [jobTitle, setJobTitle] = useState('Desenvolvedor Full Stack');
-  const [requirements, setRequirements] = useState<string[]>(['Java', 'TypeScript']);
+  const [companyName, setCompanyName] = useState('');
+  const [jobTitle, setJobTitle] = useState('');
+  const [requirements, setRequirements] = useState<string[]>([]);
   const [currentRequirement, setCurrentRequirement] = useState('');
   const [error, setError] = useState('');
 
@@ -31,15 +31,15 @@ export function useCompanyForm() {
 
  async function handleSubmit() {
   if (companyName.trim() === '') {
-    setError('Please enter the company name.');
+    setError('Informe o nome da empresa.');
     return;
   }
   if (jobTitle.trim() === '') {
-    setError('Please enter the job title.');
+    setError('Informe o título da vaga.');
     return;
   }
   if (requirements.length === 0) {
-    setError('Please add at least one requirement.');
+    setError('Adicione pelo menos um requisito.');
     return;
   }
 
@@ -59,7 +59,7 @@ export function useCompanyForm() {
   await saveCompany(company);
   await saveJob(job);
   dispatch({ type: 'SET_COMPANY', payload: company });
-  navigation.navigate('Welcome');
+  navigation.navigate('Home');
 }
 return {
     companyName, setCompanyName,

@@ -15,6 +15,8 @@ function appReducer(state: AppState, action: AppAction): AppState {
             return { ...state, professional: action.payload };
         case 'SET_COMPANY':
             return { ...state, company: action.payload };
+        case 'RESET':
+            return initialState;
     }
 }
  const AppContext = createContext<{

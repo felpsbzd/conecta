@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-nati
 import { useJobDetail } from '../hooks/useJobDetail';
 
 export default function JobDetailScreen() {
-  const { matchResult, handleApply } = useJobDetail();
+  const { matchResult, handleApply, isPerfectMatch, requirements } = useJobDetail();
   const { job, company, matchedSkills, score } = matchResult;
 
   return (
@@ -11,26 +11,28 @@ export default function JobDetailScreen() {
       <View style={styles.header}>
         <Text style={styles.jobTitle}>{job.title}</Text>
         <Text style={styles.companyName}>{company.name}</Text>
-        <View style={[styles.scoreBadge, { backgroundColor: score === 100 ? '#16A34A' : '#2563EB' }]}>
+        <View style={[styles.scoreBadge, isPerfectMatch ? styles.perfectBadge : styles.defaultBadge]}>
           <Text style={styles.scoreText}>{score}% compatível</Text>
         </View>
       </View>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Requisitos da Vaga</Text>
-        {job.requirements.map((req, i) => {
-          const matched = matchedSkills.map(s => s.toLowerCase()).includes(req.toLowerCase());
-          return (
-            <View key={i} style={[styles.requirementItem, { borderLeftColor: matched ? '#16A34A' : '#EF4444' }]}>
-              <Text style={styles.requirementText}>{req}</Text>
-              <Text style={{ color: matched ? '#16A34A' : '#EF4444', fontWeight: 'bold' }}>
-                {matched ? '✓' : '✗'}
-              </Text>
-            </View>
-          );
-        })}
+        {requirements.map((requirement) => (
+          <View
+            key={requirement.name}
+            style={[
+              styles.requirementItem,
+              requirement.matched ? styles.matchedRequirement : styles.unmatchedRequirement,
+            ]}
+          >
+            <Text style={styles.requirementText}>{requirement.name}</Text>
+            <Text style={requirement.matched ? styles.matchedIcon : styles.unmatchedIcon}>
+              {requirement.matched ? '✓' : '×'}
+            </Text>
+          </View>
+        ))}
       </View>
-
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Suas Habilidades Compatíveis</Text>
         <View style={styles.skillsRow}>
@@ -41,7 +43,6 @@ export default function JobDetailScreen() {
           ))}
         </View>
       </View>
-
       <TouchableOpacity style={styles.applyButton} onPress={handleApply}>
         <Text style={styles.applyText}>Tenho Interesse</Text>
       </TouchableOpacity>
@@ -52,8 +53,8 @@ export default function JobDetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F8FAFC',
     padding: 24,
-    paddingTop: 48,
   },
   header: {
     marginBottom: 32,
@@ -74,6 +75,8 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 20,
   },
+  defaultBadge: { backgroundColor: '#2563EB' },
+  perfectBadge: { backgroundColor: '#16A34A' },
   scoreText: {
     color: '#fff',
     fontWeight: 'bold',
@@ -98,8 +101,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8FAFC',
     marginBottom: 8,
   },
-  requirementText: {
-    fontSize: 16,
+  matchedRequirement: { borderLeftColor: '#16A34A' },
+  unmatchedRequirement: { borderLeftColor: '#EF4444' },
+  requirementText: { fontSize: 16 },
+  matchedIcon: {
+    color: '#16A34A',
+    fontWeight: 'bold',
+  },
+  unmatchedIcon: {
+    color: '#EF4444',
+    fontWeight: 'bold',
   },
   skillsRow: {
     flexDirection: 'row',
