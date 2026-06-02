@@ -6,6 +6,7 @@ import { getProfessionals } from '../../professional/services/professional.servi
 import { getCompanies } from '../../company/services/company.service';
 import { useAppContext } from '../../../context/AppContext';
 import { UserType } from '../../../types/user.types';
+import { consumeStartupSkip } from '../services/appStorage.service';
 
 type StartupNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -15,6 +16,12 @@ export function useAppStartup() {
 
   useEffect(() => {
     const timer = setTimeout(async () => {
+      const shouldSkipStartup = await consumeStartupSkip();
+
+      if (shouldSkipStartup) {
+        return;
+      }
+
       const professionals = await getProfessionals();
       const companies = await getCompanies();
 

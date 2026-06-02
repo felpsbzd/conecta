@@ -3,7 +3,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAppContext } from '../../../context/AppContext';
 import { RootStackParamList } from '../../../navigation/navigation.types';
 import { UserType } from '../../../types/user.types';
-import { clearStoredSession } from '../services/appStorage.service';
+import { requestAccountSwitch } from '../services/appStorage.service';
 
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -15,7 +15,7 @@ export function useHome() {
   const professional = state.professional;
 
   async function handleSwitchAccount() {
-    await clearStoredSession();
+    await requestAccountSwitch();
     dispatch({ type: 'RESET' });
     navigation.replace('Welcome');
   }
